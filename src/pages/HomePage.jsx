@@ -16,11 +16,13 @@ import FilterBar from '../components/FilterBar';
 import MovieGrid from '../components/MovieGrid';
 import ErrorAlert from '../components/ErrorAlert';
 import { useMovie } from '../context/MovieContext';
+import { useThemeMode } from '../context/ThemeModeContext';
 import { searchMovies, discoverMovies, getTrendingMovies, BACKDROP_SIZES } from '../api/tmdb';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { lastSearchQuery, setLastSearchQuery } = useMovie();
+  const { isDark } = useThemeMode();
 
   const [query, setQuery] = useState(lastSearchQuery || '');
   const [movies, setMovies] = useState([]);
@@ -196,25 +198,26 @@ export default function HomePage() {
             alignItems: 'flex-end',
           }}
         >
-          {/* Gradients */}
+          {/* Dynamic Gradients */}
           <Box
             sx={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.7) 50%, rgba(11, 15, 25, 0.4) 100%)',
+              background: isDark
+                ? 'linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.7) 50%, rgba(11, 15, 25, 0.4) 100%)'
+                : 'linear-gradient(to top, #f8fafc 0%, rgba(248, 250, 252, 0.85) 50%, rgba(248, 250, 252, 0.5) 100%)',
             }}
           />
           <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, pb: { xs: 4, md: 6 } }}>
-
             <Typography
               variant="h3"
               component="h1"
               sx={{
                 fontWeight: 800,
-                color: '#fff',
+                color: isDark ? '#fff' : '#0f172a',
                 fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3.2rem' },
                 maxWidth: 800,
-                textShadow: '0 4px 16px rgba(0,0,0,0.8)',
+                textShadow: isDark ? '0 4px 16px rgba(0,0,0,0.8)' : 'none',
                 mb: 1.5,
               }}
             >
@@ -223,7 +226,7 @@ export default function HomePage() {
             <Typography
               variant="body1"
               sx={{
-                color: 'rgba(255,255,255,0.85)',
+                color: isDark ? 'rgba(255,255,255,0.85)' : '#334155',
                 maxWidth: 680,
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
@@ -231,7 +234,7 @@ export default function HomePage() {
                 overflow: 'hidden',
                 fontSize: { xs: '0.9rem', md: '1.05rem' },
                 mb: 2.5,
-                textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+                textShadow: isDark ? '0 2px 8px rgba(0,0,0,0.6)' : 'none',
               }}
             >
               {heroMovie.overview}

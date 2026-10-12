@@ -22,6 +22,7 @@ import TrailerModal from '../components/TrailerModal';
 import MovieGrid from '../components/MovieGrid';
 import ErrorAlert from '../components/ErrorAlert';
 import { useMovie } from '../context/MovieContext';
+import { useThemeMode } from '../context/ThemeModeContext';
 import {
   getMovieDetails,
   POSTER_SIZES,
@@ -32,6 +33,7 @@ export default function MovieDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite } = useMovie();
+  const { isDark } = useThemeMode();
 
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -135,15 +137,20 @@ export default function MovieDetailsPage() {
           bgcolor: 'background.default',
         }}
       >
-        {/* Multilayer Dark Ambient Gradient Overlay */}
+        {/* Dynamic Theme Ambient Gradient Overlay */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            background: {
-              xs: 'linear-gradient(to bottom, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.98) 100%)',
-              md: 'linear-gradient(to right, rgba(11, 15, 25, 0.98) 0%, rgba(11, 15, 25, 0.92) 45%, rgba(11, 15, 25, 0.65) 100%), linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.5) 50%, rgba(11, 15, 25, 0.8) 100%)',
-            },
+            background: isDark
+              ? {
+                  xs: 'linear-gradient(to bottom, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.98) 100%)',
+                  md: 'linear-gradient(to right, rgba(11, 15, 25, 0.98) 0%, rgba(11, 15, 25, 0.92) 45%, rgba(11, 15, 25, 0.65) 100%), linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.5) 50%, rgba(11, 15, 25, 0.8) 100%)',
+                }
+              : {
+                  xs: 'linear-gradient(to bottom, rgba(248, 250, 252, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%)',
+                  md: 'linear-gradient(to right, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.92) 48%, rgba(248, 250, 252, 0.6) 100%), linear-gradient(to top, #f8fafc 0%, rgba(248, 250, 252, 0.4) 50%, rgba(248, 250, 252, 0.85) 100%)',
+                },
           }}
         />
 
@@ -158,24 +165,25 @@ export default function MovieDetailsPage() {
               px: 2.2,
               py: 0.7,
               borderRadius: '50px',
-              bgcolor: 'rgba(255, 255, 255, 0.12)',
+              bgcolor: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.85)',
               backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              color: '#ffffff',
+              border: isDark ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.1)',
+              color: isDark ? '#ffffff' : '#0f172a',
               fontSize: '0.85rem',
               fontWeight: 600,
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+              boxShadow: isDark ? '0 4px 16px rgba(0, 0, 0, 0.3)' : '0 4px 14px rgba(0, 0, 0, 0.08)',
               transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
-                bgcolor: 'rgba(255, 255, 255, 0.22)',
-                borderColor: 'rgba(255, 255, 255, 0.35)',
+                bgcolor: isDark ? 'rgba(255, 255, 255, 0.22)' : '#ffffff',
+                borderColor: isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.18)',
                 transform: 'translateX(-4px)',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
+                boxShadow: isDark ? '0 6px 20px rgba(0, 0, 0, 0.4)' : '0 6px 18px rgba(0, 0, 0, 0.12)',
               },
             }}
           >
             Back to Movies
           </Button>
+
           <Box
             sx={{
               display: 'flex',
@@ -201,8 +209,8 @@ export default function MovieDetailsPage() {
                   sx={{
                     width: '100%',
                     borderRadius: 4,
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.7)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: isDark ? '0 20px 40px rgba(0, 0, 0, 0.7)' : '0 20px 40px rgba(15, 23, 42, 0.18)',
+                    border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.08)',
                   }}
                 />
               ) : (
@@ -255,11 +263,24 @@ export default function MovieDetailsPage() {
                     py: 1.4,
                     borderRadius: 3,
                     fontWeight: 700,
-                    bgcolor: favorited ? '#ef4444' : 'rgba(255, 255, 255, 0.05)',
-                    borderColor: favorited ? 'transparent' : 'rgba(255, 255, 255, 0.2)',
-                    color: '#fff',
+                    bgcolor: favorited
+                      ? '#ef4444'
+                      : isDark
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : '#ffffff',
+                    borderColor: favorited
+                      ? 'transparent'
+                      : isDark
+                      ? 'rgba(255, 255, 255, 0.2)'
+                      : 'rgba(0, 0, 0, 0.15)',
+                    color: favorited ? '#fff' : isDark ? '#fff' : '#0f172a',
+                    boxShadow: !favorited && !isDark ? '0 2px 10px rgba(0, 0, 0, 0.06)' : 'none',
                     '&:hover': {
-                      bgcolor: favorited ? '#dc2626' : 'rgba(255, 255, 255, 0.12)',
+                      bgcolor: favorited
+                        ? '#dc2626'
+                        : isDark
+                        ? 'rgba(255, 255, 255, 0.12)'
+                        : 'rgba(0, 0, 0, 0.04)',
                     },
                   }}
                 >
@@ -277,9 +298,9 @@ export default function MovieDetailsPage() {
                 sx={{
                   fontSize: { xs: '2rem', sm: '2.6rem', md: '3.2rem' },
                   fontWeight: 800,
-                  color: '#fff',
+                  color: isDark ? '#ffffff' : '#0f172a',
                   lineHeight: 1.15,
-                  textShadow: '0 4px 20px rgba(0, 0, 0, 0.7)',
+                  textShadow: isDark ? '0 4px 20px rgba(0, 0, 0, 0.7)' : 'none',
                 }}
               >
                 {title}
@@ -289,7 +310,7 @@ export default function MovieDetailsPage() {
                 <Typography
                   variant="h6"
                   sx={{
-                    color: 'rgba(255, 255, 255, 0.8)',
+                    color: isDark ? 'rgba(255, 255, 255, 0.8)' : '#475569',
                     fontStyle: 'italic',
                     fontWeight: 400,
                     mt: 1,
@@ -314,39 +335,45 @@ export default function MovieDetailsPage() {
               >
                 {releaseYear && (
                   <Chip
-                    icon={<CalendarMonthIcon sx={{ '&&': { color: '#fff', fontSize: '1rem' } }} />}
+                    icon={<CalendarMonthIcon sx={{ '&&': { color: isDark ? '#fff' : '#475569', fontSize: '1rem' } }} />}
                     label={releaseYear}
                     sx={{
                       fontWeight: 700,
-                      bgcolor: 'rgba(255, 255, 255, 0.1)',
-                      color: '#fff',
+                      bgcolor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.85)',
+                      color: isDark ? '#fff' : '#0f172a',
+                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.08)',
                       backdropFilter: 'blur(8px)',
+                      boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.04)',
                     }}
                   />
                 )}
 
                 {runtime > 0 && (
                   <Chip
-                    icon={<AccessTimeIcon sx={{ '&&': { color: '#fff', fontSize: '1rem' } }} />}
+                    icon={<AccessTimeIcon sx={{ '&&': { color: isDark ? '#fff' : '#475569', fontSize: '1rem' } }} />}
                     label={formattedRuntime}
                     sx={{
                       fontWeight: 700,
-                      bgcolor: 'rgba(255, 255, 255, 0.1)',
-                      color: '#fff',
+                      bgcolor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.85)',
+                      color: isDark ? '#fff' : '#0f172a',
+                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.08)',
                       backdropFilter: 'blur(8px)',
+                      boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.04)',
                     }}
                   />
                 )}
 
                 {movie.original_language && (
                   <Chip
-                    icon={<LanguageIcon sx={{ '&&': { color: '#fff', fontSize: '1rem' } }} />}
+                    icon={<LanguageIcon sx={{ '&&': { color: isDark ? '#fff' : '#475569', fontSize: '1rem' } }} />}
                     label={movie.original_language.toUpperCase()}
                     sx={{
                       fontWeight: 700,
-                      bgcolor: 'rgba(255, 255, 255, 0.1)',
-                      color: '#fff',
+                      bgcolor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.85)',
+                      color: isDark ? '#fff' : '#0f172a',
+                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.08)',
                       backdropFilter: 'blur(8px)',
+                      boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.04)',
                     }}
                   />
                 )}
@@ -357,18 +384,18 @@ export default function MovieDetailsPage() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 0.8,
-                    bgcolor: 'rgba(245, 158, 11, 0.15)',
-                    border: '1px solid rgba(245, 158, 11, 0.4)',
+                    bgcolor: isDark ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.12)',
+                    border: isDark ? '1px solid rgba(245, 158, 11, 0.4)' : '1px solid rgba(245, 158, 11, 0.35)',
                     borderRadius: 2,
                     px: 1.5,
                     py: 0.4,
                   }}
                 >
                   <StarIcon sx={{ color: '#fbbf24', fontSize: 20 }} />
-                  <Typography variant="body2" fontWeight={800} sx={{ color: '#fbbf24' }}>
+                  <Typography variant="body2" fontWeight={800} sx={{ color: isDark ? '#fbbf24' : '#b45309' }}>
                     {vote_average ? vote_average.toFixed(1) : 'NR'}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <Typography variant="caption" sx={{ color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#64748b' }}>
                     / 10 ({vote_count ? vote_count.toLocaleString() : 0} votes)
                   </Typography>
                 </Box>
@@ -383,9 +410,9 @@ export default function MovieDetailsPage() {
                     size="small"
                     sx={{
                       fontWeight: 700,
-                      bgcolor: 'rgba(229, 9, 20, 0.2)',
-                      color: '#ff6b6b',
-                      border: '1px solid rgba(229, 9, 20, 0.35)',
+                      bgcolor: isDark ? 'rgba(229, 9, 20, 0.2)' : 'rgba(229, 9, 20, 0.08)',
+                      color: isDark ? '#ff6b6b' : '#e50914',
+                      border: isDark ? '1px solid rgba(229, 9, 20, 0.35)' : '1px solid rgba(229, 9, 20, 0.25)',
                     }}
                   />
                 ))}
@@ -393,13 +420,13 @@ export default function MovieDetailsPage() {
 
               {/* Overview / Storyline */}
               <Box sx={{ mb: 4, maxWidth: 900 }}>
-                <Typography variant="subtitle1" fontWeight={800} sx={{ color: '#fff', mb: 1 }}>
+                <Typography variant="subtitle1" fontWeight={800} sx={{ color: isDark ? '#ffffff' : '#0f172a', mb: 1 }}>
                   Overview
                 </Typography>
                 <Typography
                   variant="body1"
                   sx={{
-                    color: 'rgba(255, 255, 255, 0.85)',
+                    color: isDark ? 'rgba(255, 255, 255, 0.85)' : '#334155',
                     lineHeight: 1.8,
                     fontSize: { xs: '0.95rem', md: '1.05rem' },
                   }}
@@ -411,7 +438,17 @@ export default function MovieDetailsPage() {
               {/* Director & Key Crew */}
               {credits.crew && credits.crew.length > 0 && (
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', mb: 1 }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: isDark ? 'rgba(255, 255, 255, 0.6)' : '#64748b',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      display: 'block',
+                      mb: 1,
+                    }}
+                  >
                     Director & Key Crew
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -424,9 +461,10 @@ export default function MovieDetailsPage() {
                           label={`${crewMember.name} • ${crewMember.job}`}
                           size="small"
                           sx={{
-                            bgcolor: 'rgba(255, 255, 255, 0.08)',
-                            color: 'rgba(255, 255, 255, 0.9)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            bgcolor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.85)',
+                            color: isDark ? 'rgba(255, 255, 255, 0.9)' : '#334155',
+                            border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.08)',
+                            boxShadow: isDark ? 'none' : '0 2px 6px rgba(0, 0, 0, 0.03)',
                           }}
                         />
                       ))}
