@@ -94,7 +94,6 @@ export default function Navbar() {
               <MenuIcon sx={{ fontSize: { xs: 24, sm: 26 } }} />
             </IconButton>
 
-            {/* Logo Link */}
             <Box
               component={RouterLink}
               to="/"
@@ -105,23 +104,6 @@ export default function Navbar() {
                 color: 'inherit',
               }}
             >
-              <Box
-                sx={{
-                  width: { xs: 32, sm: 38 },
-                  height: { xs: 32, sm: 38 },
-                  borderRadius: { xs: '8px', sm: '10px' },
-                  bgcolor: 'primary.main',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#fff',
-                  mr: { xs: 1, sm: 1.5 },
-                  boxShadow: '0 4px 12px rgba(229, 9, 20, 0.4)',
-                }}
-              >
-                <MovieCreationIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
-              </Box>
-
               <Box>
                 <Typography
                   variant="h6"
@@ -309,21 +291,7 @@ export default function Navbar() {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2 }}>
-            <Box
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: '8px',
-                bgcolor: 'primary.main',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-              }}
-            >
-              <MovieCreationIcon sx={{ fontSize: 18 }} />
-            </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="h6" fontWeight={800}>
               Movie Explorer
             </Typography>
