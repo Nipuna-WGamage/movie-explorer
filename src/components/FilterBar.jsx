@@ -14,9 +14,14 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useMovie } from '../context/MovieContext';
 
 const selectMenuProps = {
+  sx: {
+    '& .MuiPaper-root': {
+      maxHeight: '250px !important',
+      overflowY: 'auto !important',
+    },
+  },
   PaperProps: {
     sx: {
-      maxHeight: 280,
       borderRadius: 2,
       mt: 0.5,
       boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25)',
