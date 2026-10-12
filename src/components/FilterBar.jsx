@@ -13,6 +13,23 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useMovie } from '../context/MovieContext';
 
+const selectMenuProps = {
+  PaperProps: {
+    sx: {
+      maxHeight: 280,
+      borderRadius: 2.5,
+      mt: 0.5,
+      boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25)',
+      scrollbarWidth: 'thin',
+      '&::-webkit-scrollbar': { width: 6 },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(150, 150, 150, 0.3)',
+        borderRadius: 3,
+      },
+    },
+  },
+};
+
 export default function FilterBar({
   filters,
   onFilterChange,
@@ -78,6 +95,7 @@ export default function FilterBar({
             value={filters.genreId || ''}
             label="Genre"
             onChange={(e) => onFilterChange('genreId', e.target.value)}
+            MenuProps={selectMenuProps}
           >
             <MenuItem value="">
               <em>All Genres</em>
@@ -99,6 +117,7 @@ export default function FilterBar({
             value={filters.year || ''}
             label="Release Year"
             onChange={(e) => onFilterChange('year', e.target.value)}
+            MenuProps={selectMenuProps}
           >
             <MenuItem value="">
               <em>All Years</em>
@@ -120,6 +139,7 @@ export default function FilterBar({
             value={filters.minRating || ''}
             label="Min Rating"
             onChange={(e) => onFilterChange('minRating', e.target.value)}
+            MenuProps={selectMenuProps}
           >
             <MenuItem value="">
               <em>Any Rating</em>
@@ -140,6 +160,7 @@ export default function FilterBar({
             value={filters.sortBy || 'popularity.desc'}
             label="Sort By"
             onChange={(e) => onFilterChange('sortBy', e.target.value)}
+            MenuProps={selectMenuProps}
           >
             <MenuItem value="popularity.desc">Most Popular</MenuItem>
             <MenuItem value="vote_average.desc">Highest Rated</MenuItem>
