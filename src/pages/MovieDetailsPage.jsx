@@ -51,10 +51,13 @@ export default function MovieDetailsPage() {
       .then((data) => {
         if (isMounted) {
           setMovie(data);
-          // Look for official trailer in videos
+          // Look for best official trailer in videos
           const videos = data.videos?.results || [];
           const trailer =
+            videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official && v.iso_639_1 === 'en') ||
+            videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official) ||
             videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ||
+            videos.find((v) => v.site === 'YouTube' && v.type === 'Teaser') ||
             videos.find((v) => v.site === 'YouTube');
           setTrailerKey(trailer ? trailer.key : null);
         }
