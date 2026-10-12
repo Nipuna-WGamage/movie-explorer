@@ -17,7 +17,7 @@ const selectMenuProps = {
   PaperProps: {
     sx: {
       maxHeight: 280,
-      borderRadius: 2.5,
+      borderRadius: 2,
       mt: 0.5,
       boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25)',
       scrollbarWidth: 'thin',
@@ -28,6 +28,8 @@ const selectMenuProps = {
       },
     },
   },
+  anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+  transformOrigin: { vertical: 'top', horizontal: 'left' },
 };
 
 export default function FilterBar({
@@ -45,7 +47,7 @@ export default function FilterBar({
     <Box
       sx={{
         p: { xs: 2, md: 2.5 },
-        borderRadius: 3,
+        borderRadius: 1.5,
         bgcolor: 'background.paper',
         border: '1px solid',
         borderColor: 'divider',
