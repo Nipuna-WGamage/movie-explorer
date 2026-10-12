@@ -93,22 +93,6 @@ export default function Navbar() {
               mr: { xs: 1, md: 4 },
             }}
           >
-            <Box
-              sx={{
-                width: 38,
-                height: 38,
-                borderRadius: '10px',
-                bgcolor: 'primary.main',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                mr: 1.5,
-                boxShadow: '0 4px 14px rgba(229, 9, 20, 0.45)',
-              }}
-            >
-              <MovieCreationIcon sx={{ fontSize: 22 }} />
-            </Box>
             <Box>
               <Typography
                 variant="h6"

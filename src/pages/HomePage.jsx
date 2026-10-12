@@ -8,13 +8,14 @@ import {
   Switch,
   Chip,
 } from '@mui/material';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import MovieGrid from '../components/MovieGrid';
 import ErrorAlert from '../components/ErrorAlert';
 import { useMovie } from '../context/MovieContext';
-import { searchMovies, discoverMovies } from '../api/tmdb';
+import { searchMovies, discoverMovies, getTrendingMovies, BACKDROP_SIZES } from '../api/tmdb';
 
 export default function HomePage() {
   const { lastSearchQuery, setLastSearchQuery } = useMovie();
@@ -26,6 +27,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [heroMovie, setHeroMovie] = useState(null);
 
   // Extra filter features
   const [filters, setFilters] = useState({
@@ -40,6 +42,22 @@ export default function HomePage() {
   const observerRef = useRef(null);
 
   const hasActiveFilters = Boolean(filters.genreId || filters.year || filters.minRating || filters.sortBy !== 'popularity.desc');
+
+  // Fetch Hero movie spotlight on initial mount
+  useEffect(() => {
+    let isMounted = true;
+    getTrendingMovies('day', 1)
+      .then((data) => {
+        if (isMounted && data.results && data.results.length > 0) {
+          const featured = data.results.find((m) => m.backdrop_path) || data.results[0];
+          setHeroMovie(featured);
+        }
+      })
+      .catch(() => { });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Main data fetching function
   const fetchMoviesData = useCallback(
@@ -160,9 +178,78 @@ export default function HomePage() {
 
   return (
     <Box sx={{ minHeight: '100vh', pb: 8 }}>
+      {/* Hero Showcase Spotlight */}
+      {heroMovie && !query && (
+        <Box
+          sx={{
+            position: 'relative',
+            height: { xs: 360, sm: 460, md: 520 },
+            backgroundImage: heroMovie.backdrop_path
+              ? `url(${BACKDROP_SIZES.original}${heroMovie.backdrop_path})`
+              : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 20%',
+            mb: 4,
+            display: 'flex',
+            alignItems: 'flex-end',
+          }}
+        >
+          {/* Gradients */}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to top, rgba(11, 15, 25, 1) 0%, rgba(11, 15, 25, 0.7) 50%, rgba(11, 15, 25, 0.4) 100%)',
+            }}
+          />
+          <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, pb: { xs: 4, md: 6 } }}>
+
+            <Typography
+              variant="h3"
+              component="h1"
+              sx={{
+                fontWeight: 800,
+                color: '#fff',
+                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3.2rem' },
+                maxWidth: 800,
+                textShadow: '0 4px 16px rgba(0,0,0,0.8)',
+                mb: 1.5,
+              }}
+            >
+              {heroMovie.title || heroMovie.name}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255,255,255,0.85)',
+                maxWidth: 680,
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                fontSize: { xs: '0.9rem', md: '1.05rem' },
+                mb: 2.5,
+                textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+              }}
+            >
+              {heroMovie.overview}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              href={`/movie/${heroMovie.id}`}
+              sx={{ fontWeight: 700, px: 3.5, py: 1.2, borderRadius: 2.5 }}
+            >
+              Explore Movie Details
+            </Button>
+          </Container>
+        </Box>
+      )}
+
       <Container maxWidth="xl">
         {/* Search Bar section */}
-        <Box sx={{ mt: 4, mb: 2 }}>
+        <Box sx={{ mt: heroMovie && !query ? 2 : 4, mb: 2 }}>
           <SearchBar onSearch={handleSearch} activeQuery={query} />
         </Box>
 
