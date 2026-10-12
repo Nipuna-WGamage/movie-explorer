@@ -1,16 +1,31 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { ThemeModeProvider } from './context/ThemeModeContext';
 import { AuthProvider } from './context/AuthContext';
 import { MovieProvider } from './context/MovieContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import LoginModal from './components/LoginModal';
-import HomePage from './pages/HomePage';
-import TrendingPage from './pages/TrendingPage';
-import MovieDetailsPage from './pages/MovieDetailsPage';
-import FavoritesPage from './pages/FavoritesPage';
-import LoginPage from './pages/LoginPage';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const TrendingPage = lazy(() => import('./pages/TrendingPage'));
+const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage'));
+const FavoritesPage = lazy(() => import('./pages/FavoritesPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const LoginModal = lazy(() => import('./components/LoginModal'));
+
+const routeFallback = (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '40vh',
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
 
 function App() {
   return (
@@ -30,17 +45,21 @@ function App() {
             >
               <Navbar />
               <Box component="main" sx={{ flexGrow: 1 }}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/trending" element={<TrendingPage />} />
-                  <Route path="/movie/:id" element={<MovieDetailsPage />} />
-                  <Route path="/favorites" element={<FavoritesPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                <Suspense fallback={routeFallback}>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/trending" element={<TrendingPage />} />
+                    <Route path="/movie/:id" element={<MovieDetailsPage />} />
+                    <Route path="/favorites" element={<FavoritesPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
               </Box>
               <Footer />
-              <LoginModal />
+              <Suspense fallback={null}>
+                <LoginModal />
+              </Suspense>
             </Box>
           </BrowserRouter>
         </MovieProvider>
