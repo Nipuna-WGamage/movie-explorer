@@ -105,10 +105,12 @@ export default function CastList({ cast = [] }) {
             <Card
               key={`${person.id}-${person.cast_id || person.credit_id}`}
               sx={{
-                minWidth: 140,
-                maxWidth: 140,
+                minWidth: 145,
+                maxWidth: 145,
                 flexShrink: 0,
-                borderRadius: 3.5,
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 2.5,
                 overflow: 'hidden',
                 bgcolor: 'background.paper',
                 border: '1px solid',
@@ -126,7 +128,7 @@ export default function CastList({ cast = [] }) {
               }}
             >
               {/* Actor Portrait Image */}
-              <Box sx={{ position: 'relative', width: '100%', height: 175, overflow: 'hidden', bgcolor: 'background.subtle' }}>
+              <Box sx={{ position: 'relative', width: '100%', height: 180, overflow: 'hidden', bgcolor: 'background.subtle' }}>
                 {photoUrl ? (
                   <CardMedia
                     component="img"
@@ -159,12 +161,23 @@ export default function CastList({ cast = [] }) {
               </Box>
 
               {/* Actor Info */}
-              <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+              <CardContent
+                sx={{
+                  p: 1.5,
+                  pb: 2,
+                  minHeight: 88,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  '&:last-child': { pb: 2 },
+                }}
+              >
                 <Typography
                   variant="body2"
                   fontWeight={700}
-                  lineHeight={1.3}
+                  lineHeight={1.25}
                   sx={{
+                    width: '100%',
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
@@ -181,6 +194,7 @@ export default function CastList({ cast = [] }) {
                   variant="caption"
                   color="text.secondary"
                   sx={{
+                    width: '100%',
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
