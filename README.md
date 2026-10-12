@@ -82,11 +82,14 @@ Built for the **Loons Lab Intern Project Challenge**.
    ```
 
 3. Configure the TMDB API Key:
-   The application is pre-configured with the project's TMDB API key in `src/api/tmdb.js`.
-   If you wish to use your own key, create a `.env` file or update `src/api/tmdb.js`:
-   ```javascript
-   const API_KEY = 'YOUR_TMDB_API_KEY';
+   Create a `.env` file in the project root.
+   Add your TMDB API key:
+   ```env
+   VITE_TMDB_API_KEY=YOUR_TMDB_API_KEY
    ```
+   Replace `YOUR_TMDB_API_KEY` with your own TMDB API key.
+   Restart the development server after changing the environment file.
+   
 
 4. Start the development server:
    ```bash
