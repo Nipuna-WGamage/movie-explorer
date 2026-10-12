@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Typography,
@@ -18,6 +19,7 @@ import { useMovie } from '../context/MovieContext';
 import { searchMovies, discoverMovies, getTrendingMovies, BACKDROP_SIZES } from '../api/tmdb';
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const { lastSearchQuery, setLastSearchQuery } = useMovie();
 
   const [query, setQuery] = useState(lastSearchQuery || '');
@@ -238,7 +240,7 @@ export default function HomePage() {
               variant="contained"
               color="primary"
               size="large"
-              href={`/movie/${heroMovie.id}`}
+              onClick={() => navigate(`/movie/${heroMovie.id}`)}
               sx={{ fontWeight: 700, px: 3.5, py: 1.2, borderRadius: 2.5 }}
             >
               Explore Movie Details

@@ -71,7 +71,7 @@ export default function SearchBar({ onSearch, activeQuery = '' }) {
             fontSize: { xs: '1rem', sm: '1.1rem' },
             fontWeight: 500,
           }}
-          placeholder="Search movies by title (e.g., Inception, Avengers, Batman)..."
+          placeholder="Search movies (e.g., Inception, Avengers)..."
           inputProps={{ 'aria-label': 'search movies' }}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}

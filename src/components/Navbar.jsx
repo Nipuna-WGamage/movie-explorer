@@ -36,7 +36,7 @@ import { useAuth } from '../context/AuthContext';
 import { useMovie } from '../context/MovieContext';
 
 export default function Navbar() {
-  const { mode, toggleThemeMode, isDark } = useThemeMode();
+  const { toggleThemeMode, isDark } = useThemeMode();
   const { user, isAuthenticated, logout, openLoginModal } = useAuth();
   const { favorites } = useMovie();
   const navigate = useNavigate();
@@ -68,54 +68,92 @@ export default function Navbar() {
 
   return (
     <AppBar position="sticky" elevation={0} sx={{ zIndex: 1100 }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: { xs: 64, md: 72 } }}>
-          {/* Mobile Hamburger Menu */}
-          <IconButton
-            color="inherit"
-            aria-label="open navigation drawer"
-            edge="start"
-            onClick={() => setMobileDrawerOpen(true)}
-            sx={{ mr: 1, display: { md: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
+      <Container maxWidth="xl" sx={{ px: { xs: 1.5, sm: 3 } }}>
+        <Toolbar
+          disableGutters
+          sx={{
+            minHeight: { xs: 58, sm: 64, md: 70 },
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          {/* Left: Mobile Menu & Brand Logo */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.8, sm: 1.5 } }}>
+            {/* Mobile Hamburger Drawer Trigger */}
+            <IconButton
+              color="inherit"
+              aria-label="open navigation drawer"
+              onClick={() => setMobileDrawerOpen(true)}
+              sx={{
+                p: { xs: 0.8, sm: 1 },
+                display: { md: 'none' },
+                color: 'text.primary',
+              }}
+            >
+              <MenuIcon sx={{ fontSize: { xs: 24, sm: 26 } }} />
+            </IconButton>
 
-          {/* Logo & Brand Title */}
-          <Box
-            component={RouterLink}
-            to="/"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              color: 'inherit',
-              mr: { xs: 1, md: 4 },
-            }}
-          >
-            <Box>
-              <Typography
-                variant="h6"
-                noWrap
+            {/* Logo Link */}
+            <Box
+              component={RouterLink}
+              to="/"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+            >
+              <Box
                 sx={{
-                  fontWeight: 800,
-                  letterSpacing: '-0.02em',
-                  background: 'linear-gradient(45deg, #e50914, #ff6b6b)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  lineHeight: 1.1,
+                  width: { xs: 32, sm: 38 },
+                  height: { xs: 32, sm: 38 },
+                  borderRadius: { xs: '8px', sm: '10px' },
+                  bgcolor: 'primary.main',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  mr: { xs: 1, sm: 1.5 },
+                  boxShadow: '0 4px 12px rgba(229, 9, 20, 0.4)',
                 }}
               >
-                Movie Explorer
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.65rem', display: { xs: 'none', sm: 'block' } }}>
-                Powered by TMDB
-              </Typography>
+                <MovieCreationIcon sx={{ fontSize: { xs: 18, sm: 22 } }} />
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  sx={{
+                    fontWeight: 800,
+                    letterSpacing: '-0.02em',
+                    fontSize: { xs: '1.05rem', sm: '1.25rem' },
+                    background: 'linear-gradient(45deg, #e50914, #ff6b6b)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Movie Explorer
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: '0.65rem',
+                    display: { xs: 'none', sm: 'block' },
+                  }}
+                >
+                  Powered by TMDB
+                </Typography>
+              </Box>
             </Box>
           </Box>
 
-          {/* Desktop Nav Links */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+          {/* Center: Desktop Nav Links */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
@@ -143,17 +181,15 @@ export default function Navbar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: { xs: 1, md: 0 } }} />
-
-          {/* Actions: Theme Toggle & User Auth */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Right: Theme Toggle & Sign In */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.8, sm: 1.5 } }}>
             {/* Theme Switcher Button */}
             <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
               <IconButton
                 onClick={toggleThemeMode}
                 color="inherit"
                 sx={{
-                  p: 1,
+                  p: { xs: 0.8, sm: 1 },
                   borderRadius: 2,
                   bgcolor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
                   '&:hover': {
@@ -161,7 +197,11 @@ export default function Navbar() {
                   },
                 }}
               >
-                {isDark ? <Brightness7Icon sx={{ color: '#fbbf24' }} /> : <Brightness4Icon sx={{ color: '#475569' }} />}
+                {isDark ? (
+                  <Brightness7Icon sx={{ color: '#fbbf24', fontSize: { xs: 20, sm: 24 } }} />
+                ) : (
+                  <Brightness4Icon sx={{ color: '#475569', fontSize: { xs: 20, sm: 24 } }} />
+                )}
               </IconButton>
             </Tooltip>
 
@@ -174,8 +214,8 @@ export default function Navbar() {
                       src={user.avatarUrl}
                       alt={user.username}
                       sx={{
-                        width: 36,
-                        height: 36,
+                        width: { xs: 32, sm: 36 },
+                        height: { xs: 32, sm: 36 },
                         border: '2px solid',
                         borderColor: 'primary.main',
                       }}
@@ -233,14 +273,17 @@ export default function Navbar() {
               <Button
                 variant="contained"
                 color="primary"
-                startIcon={<AccountCircleIcon />}
+                startIcon={<AccountCircleIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />}
                 onClick={openLoginModal}
                 size="medium"
                 sx={{
                   borderRadius: 2.5,
                   fontWeight: 700,
-                  fontSize: '0.85rem',
-                  px: 2,
+                  fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                  px: { xs: 1.5, sm: 2 },
+                  py: { xs: 0.6, sm: 0.8 },
+                  whiteSpace: 'nowrap',
+                  minWidth: 'auto',
                 }}
               >
                 Sign In
@@ -250,7 +293,7 @@ export default function Navbar() {
         </Toolbar>
       </Container>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Navigation Drawer */}
       <Drawer
         anchor="left"
         open={mobileDrawerOpen}
@@ -260,14 +303,27 @@ export default function Navbar() {
             sx: {
               width: 280,
               bgcolor: 'background.paper',
-              p: 2,
+              p: 2.5,
             },
           },
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <MovieCreationIcon color="primary" />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2 }}>
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: '8px',
+                bgcolor: 'primary.main',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+              }}
+            >
+              <MovieCreationIcon sx={{ fontSize: 18 }} />
+            </Box>
             <Typography variant="h6" fontWeight={800}>
               Movie Explorer
             </Typography>
@@ -276,7 +332,9 @@ export default function Navbar() {
             <CloseIcon />
           </IconButton>
         </Box>
+
         <Divider sx={{ mb: 2 }} />
+
         <List>
           {navItems.map((item) => (
             <ListItem key={item.label} disablePadding sx={{ mb: 1 }}>
@@ -298,6 +356,39 @@ export default function Navbar() {
             </ListItem>
           ))}
         </List>
+
+        <Box sx={{ mt: 'auto', pt: 2 }}>
+          <Divider sx={{ mb: 2 }} />
+          {!isAuthenticated ? (
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              startIcon={<AccountCircleIcon />}
+              onClick={() => {
+                setMobileDrawerOpen(false);
+                openLoginModal();
+              }}
+              sx={{ borderRadius: 2.5, fontWeight: 700, py: 1 }}
+            >
+              Sign In
+            </Button>
+          ) : (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Avatar src={user.avatarUrl} sx={{ width: 32, height: 32 }}>
+                  {user.username?.[0]}
+                </Avatar>
+                <Typography variant="body2" fontWeight={700} noWrap sx={{ maxWidth: 120 }}>
+                  {user.username}
+                </Typography>
+              </Box>
+              <Button size="small" color="error" onClick={logout}>
+                Sign Out
+              </Button>
+            </Box>
+          )}
+        </Box>
       </Drawer>
     </AppBar>
   );
