@@ -124,26 +124,6 @@ export default function MovieDetailsPage() {
 
   return (
     <Box sx={{ minHeight: '100vh', pb: 10 }}>
-      {/* Top Navigation Bar: Clear Back Button */}
-      <Box sx={{ bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-        <Container maxWidth="xl" sx={{ py: 1.5 }}>
-          <Button
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate(-1)}
-            variant="text"
-            color="inherit"
-            sx={{
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              color: 'text.secondary',
-              '&:hover': { color: 'text.primary' },
-            }}
-          >
-            Back to Movies
-          </Button>
-        </Container>
-      </Box>
-
       {/* Cinematic Hero Section */}
       <Box
         sx={{
@@ -168,7 +148,34 @@ export default function MovieDetailsPage() {
         />
 
         {/* Hero Content Container */}
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: { xs: 4, md: 6 } }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, pt: { xs: 3, md: 4 }, pb: { xs: 4, md: 6 } }}>
+          {/* Frosted Glass Back Pill */}
+          <Button
+            startIcon={<ArrowBackIcon sx={{ fontSize: '1.1rem' }} />}
+            onClick={() => navigate(-1)}
+            sx={{
+              mb: 3,
+              px: 2.2,
+              py: 0.7,
+              borderRadius: '50px',
+              bgcolor: 'rgba(255, 255, 255, 0.12)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: '#ffffff',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.22)',
+                borderColor: 'rgba(255, 255, 255, 0.35)',
+                transform: 'translateX(-4px)',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4)',
+              },
+            }}
+          >
+            Back to Movies
+          </Button>
           <Box
             sx={{
               display: 'flex',
