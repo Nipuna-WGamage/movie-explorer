@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Container, Typography, Link } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 
 export default function Footer() {

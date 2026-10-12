@@ -1,5 +1,4 @@
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Box, Button, Tooltip } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Box, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';

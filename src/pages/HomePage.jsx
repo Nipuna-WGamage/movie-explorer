@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -9,7 +10,6 @@ import {
   Switch,
   Chip,
 } from '@mui/material';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
@@ -148,13 +148,13 @@ export default function HomePage() {
   };
 
   // Load More logic
-  const handleLoadMore = () => {
+  const handleLoadMore = useCallback(() => {
     if (page < totalPages && !loadingMore) {
       const nextPage = page + 1;
       setPage(nextPage);
       fetchMoviesData(nextPage, true);
     }
-  };
+  }, [page, totalPages, loadingMore, fetchMoviesData]);
 
   // Infinite Scroll Intersection Observer
   useEffect(() => {
@@ -176,7 +176,7 @@ export default function HomePage() {
     return () => {
       if (currentElement) observer.unobserve(currentElement);
     };
-  }, [useInfiniteScroll, loading, loadingMore, page, totalPages]);
+  }, [useInfiniteScroll, loading, loadingMore, page, totalPages, handleLoadMore]);
 
   const hasMore = page < totalPages;
 

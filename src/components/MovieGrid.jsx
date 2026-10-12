@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, Skeleton, Button, CircularProgress } from '@mui/material';
 import MovieCard from './MovieCard';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';

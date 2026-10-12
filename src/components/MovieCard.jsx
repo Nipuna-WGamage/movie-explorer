@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -17,7 +16,7 @@ import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import { useMovie } from '../context/MovieContext';
 import { POSTER_SIZES } from '../api/tmdb';
 
-export default function MovieCard({ movie, onOpenTrailer }) {
+export default function MovieCard({ movie }) {
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite, getGenreName } = useMovie();
 

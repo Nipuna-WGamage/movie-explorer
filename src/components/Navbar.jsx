@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import {
   AppBar,
@@ -21,7 +21,6 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
